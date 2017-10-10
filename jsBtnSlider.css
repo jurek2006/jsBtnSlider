@@ -1,0 +1,12 @@
+#jsBtnSlider{
+
+}
+
+.jsBtnSlider{
+
+}
+
+.jsBtnSlider--initHidden{
+    /* ukrycie slidera na start */
+    display: none;
+}
