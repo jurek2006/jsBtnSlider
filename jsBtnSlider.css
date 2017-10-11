@@ -1,12 +1,32 @@
-#jsBtnSlider{
-
+*{
+    margin: 0;
+    padding: 0;
 }
 
-.jsBtnSlider{
-
+#jsBtnSlider{
+    display: flex;
 }
 
 .jsBtnSlider--initHidden{
     /* ukrycie slidera na start */
-    display: none;
+    /* display: none; */
 }
+
+.jsBtnSlider__visible{
+    height: 100px;
+    overflow: hidden;
+}
+
+.jsBtnSlider__contentUl{
+    list-style: none;
+    display: flex;
+}
+
+.jsBtnSlider__contentUl li{
+}
+
+.jsBtnSlider__btn{
+    width: 100px;
+    height: 100px;
+}
+

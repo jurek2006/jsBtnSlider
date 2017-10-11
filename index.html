@@ -8,7 +8,26 @@
     <link rel="stylesheet" href="jsBtnSlider.css">
 </head>
 <body>
-    <div id="jsBtnSlider" class="jsBtnSlider jsBtnSlider--initHidden">js</div>
+    <div id="jsBtnSlider" class="jsBtnSlider jsBtnSlider--initHidden">
+
+        <!-- przycisk "w lewo" - przesuwa elementy w lewo -->
+        <button class="jsBtnSlider__btn jsBtnSlider__btn--ctrl jsBtnSlider__btn--prev" alt="Previous">&lsaquo;</button>
+
+        <div class="jsBtnSlider__visible"> 
+        <!-- widoczny kontener slidera -->
+            <ul class="jsBtnSlider__contentUl">
+                <!-- przyciski slidera generowane za pomocą JsBtnSlider (na liście) -->
+                    <!-- struktura generowanych elementów:  
+                    <li>
+                        <button class="jsBtnSlider__btn jsBtnSlider__btn--content"></button>
+                    </li>
+                     -->
+            </ul>
+        </div>
+
+        <!-- przycisk "w prawo" - przesuwa elementy w prawo -->
+        <button class="jsBtnSlider__btn jsBtnSlider__btn--ctrl jsBtnSlider__btn--next" alt="Next">&rsaquo;</button>
+    </div>
     
     <script src="JsBtnSlider.js"></script>
 </body>
