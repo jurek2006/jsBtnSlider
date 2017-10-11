@@ -1,15 +1,45 @@
 class JsBtnSlider{
-    constructor(sliderInpElements){
-        this.DOM = this.setDomSelectors(); //pole DOM - zawierające selektory elementów
+    constructor(numVisibleElements, sliderInpElements){
+        //PARAMETRY:
+        // numVisibleElements - liczba elementów, które mają być widoczne na sliderze
+        // sliderInpElements - tablica definiująca przyciski do wygenerowania i ich callbacki 
+
+        this.numVisibleElements = numVisibleElements;
+
+        this.DOMsel = this.setDomSelectors(); //pole DOMsel - zawierające selektory elementów
+
+        //----------------------------------------------------
 
         // selekcja obiektu slidera:
-        this.slider = document.querySelector(this.DOM.slider);
+        this.slider = document.querySelector(this.DOMsel.slider);
+
+        // "okienko" slidera - pokazujące widoczną część elementów
+        this.sliderVisible = document.querySelector(this.DOMsel.sliderVisible);
 
         // lista ul zawierająca elementy (buttony) slidera: 
-        this.sliderElementsUl = document.querySelector(this.DOM.sliderElementsUl);
+        this.sliderElementsUl = document.querySelector(this.DOMsel.sliderElementsUl); 
 
+        //---------------------------------------------------- 
+
+        // generowanie zawartości (przycisków slidera) 
         this.generateSlider(sliderInpElements);
+
+        // ustawienie zmiennej przechowującej wielkość (szerokość i wysokość) elementu (przycisku)
+        // wybór pierwszego elementu w sliderze na podstawie którego wyliczana jest wielkość elementu
+        this.firstEl = document.querySelector(this.DOMsel.contentBtn);
+        this.elSize = this.getElementSize(this.firstEl); //można użyć .width i .height
+
+        // zainicjalizowanie slidera (ustawienie jego wielkości - widocznych elementów)
+        this.init();
     }
+
+    // metoda inicjalizująca slider (ustawiająca jego wielkości - ilość widocznych elementów)
+    init(){
+        // ustawienie szerokości listy sliderElementsUl
+        
+        this.sliderVisible.style.width = (this.numVisibleElements * this.elSize.width) + 'px';
+        console.log(this.getNumExistingElements());
+    } 
 
     // metoda ustawiająca selektory elementów 
     setDomSelectors(){
@@ -17,6 +47,7 @@ class JsBtnSlider{
         return {
             // konfiguracja - selektory elementów 
             slider: '#jsBtnSlider', //selektor całego kontenera slidera
+            sliderVisible: '.jsBtnSlider__visible', //widoczna część slidera ("okienko" wyświetlające elementy)
             sliderElementsUl: '.jsBtnSlider__contentUl', //lista zawierająca elementy slidera
             btn: '.jsBtnSlider__btn',//każdy przycisk w sliderze
             contentBtn: '.jsBtnSlider__btn--content',//przycisk content (zawartości) w sliderze (tzw. content - nie dotyczy przycisków tzw funkcyjnych jak next i previous) 
@@ -37,15 +68,30 @@ class JsBtnSlider{
             newSliderElem.classList.add('jsBtnSlider__btn'); //POPRAWIĆ! - na razie nadanie klasy "z ręki"
             newSliderElem.classList.add('jsBtnSlider__btn--content'); //POPRAWIĆ! - na razie nadanie klasy "z ręki"
             
+            
             //dodanie obsługi kliknięcia w przycisk
             newSliderElem.addEventListener('click', elem.btnCallback);
 
             this.sliderElementsUl.appendChild(newLi).appendChild(newSliderElem);
+            console.log(this.getElementSize(newSliderElem));
         });
+    }
+
+    getNumExistingElements(){
+    // metoda zwracająca faktyczną liczbę elementów (przycisków) w sliderze 
+        return this.sliderElementsUl.children.length;
+    }
+
+    getElementSize(element){
+    // metoda zwracająca wielkość elementu element (jako literał obiektowy)
+        return {
+            'width': element.offsetWidth,
+            'height': element.offsetHeight
+        }
     }
 }
 
-const jsBtnSlider = new JsBtnSlider(
+const jsBtnSlider = new JsBtnSlider(3, 
     [   //tablica przycisków generowanych przez slider
         {   btnContent: 'Biały', //treść przycisku
             btnCallback: () => console.log('Biały') //akcja wykonywana na kliknięcie w przycisk
