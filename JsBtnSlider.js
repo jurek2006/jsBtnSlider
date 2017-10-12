@@ -23,6 +23,8 @@ class JsBtnSlider{
 
         // generowanie zawartości (przycisków slidera) 
         this.generateSlider(sliderInpElements);
+        // skorygowanie liczby widocznych elementów, jeśli to konieczne
+        this.adjustNumVisibleElements();
 
         // ustawienie zmiennej przechowującej wielkość (szerokość i wysokość) elementu (przycisku)
         // wybór pierwszego elementu w sliderze na podstawie którego wyliczana jest wielkość elementu
@@ -35,10 +37,10 @@ class JsBtnSlider{
 
     // metoda inicjalizująca slider (ustawiająca jego wielkości - ilość widocznych elementów)
     init(){
-        // ustawienie szerokości listy sliderElementsUl
+        // ustawienie szerokości "okna" slidera - wyświetlającego aktualne elementy
+        // jest ona tak ustawiana, żeby miało ono szerokość równą szerokości zadanej liczby widocznych elementów 
         
         this.sliderVisible.style.width = (this.numVisibleElements * this.elSize.width) + 'px';
-        console.log(this.getNumExistingElements());
     } 
 
     // metoda ustawiająca selektory elementów 
@@ -89,9 +91,21 @@ class JsBtnSlider{
             'height': element.offsetHeight
         }
     }
+
+    adjustNumVisibleElements(){
+    //metoda korygująca liczbę widocznych elementów, jeśli ogólna liczba elementów w sliderze jest mniejsza 
+        const numExistingElem = this.getNumExistingElements();
+        if(this.numVisibleElements > numExistingElem){
+            // jeśli zadana widoczna liczba elementów jest większa niż liczba istniejących elementów
+            // ustawienie widocznej liczby elementów na taką, ile istnieje elementów
+            this.numVisibleElements = numExistingElem;
+            // KOMUNIKAT
+            console.log(`Zmniejszono ilość widocznych elementów na sliderze do ${numExistingElem}, gdyż nie istnieje więcej - JsBtnSlider.js`); 
+        }
+    }
 }
 
-const jsBtnSlider = new JsBtnSlider(3, 
+const jsBtnSlider = new JsBtnSlider(2, 
     [   //tablica przycisków generowanych przez slider
         {   btnContent: 'Biały', //treść przycisku
             btnCallback: () => console.log('Biały') //akcja wykonywana na kliknięcie w przycisk
